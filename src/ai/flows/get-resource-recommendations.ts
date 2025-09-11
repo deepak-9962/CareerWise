@@ -10,6 +10,25 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import {defineTool} from 'genkit/tool';
+import {search} from '@genkit-ai/google-cloud';
+
+const youtubeSearch = defineTool(
+  {
+    name: 'youtubeSearch',
+    description: 'Search for YouTube videos.',
+    inputSchema: z.object({query: z.string()}),
+    outputSchema: z.any(),
+  },
+  async (input) => {
+    return await search({
+      query: input.query,
+      options: {
+        site: 'youtube.com',
+      },
+    });
+  },
+);
 
 const GetResourceRecommendationsInputSchema = z.object({
   skill: z.string().describe('The skill for which to recommend resources.'),
@@ -40,9 +59,10 @@ const prompt = ai.definePrompt({
   name: 'getResourceRecommendationsPrompt',
   input: {schema: GetResourceRecommendationsInputSchema},
   output: {schema: GetResourceRecommendationsOutputSchema},
+  tools: [youtubeSearch],
   prompt: `You are an expert at finding the best learning resources. For the given skill, provide the top 3 recommendations for each of the following categories: YouTube videos, online courses, and books. Only recommend resources that are highly rated and from reputable sources.
 
-Ensure that the YouTube video URLs are valid and point to real, available videos. The format should be "https://www.youtube.com/watch?v=VIDEO_ID".
+Use the youtubeSearch tool to find relevant videos and use the results to formulate your response.
 
 Skill: {{{skill}}}
 
