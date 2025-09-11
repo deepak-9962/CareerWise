@@ -23,17 +23,22 @@ const youtubeSearch = ai.defineTool(
     })),
   },
   async (input) => {
-    const searchResult = await search({
-      query: input.query,
-      options: {
-        site: 'youtube.com',
-      },
-    });
-
-    return searchResult.results.slice(0, 3).map(r => ({
-      title: r.title,
-      url: r.url,
-    }));
+    try {
+      const searchResult = await search({
+        query: `"${input.query}" tutorial`,
+        options: {
+          site: 'youtube.com',
+        },
+      });
+  
+      return searchResult.results.slice(0, 3).map(r => ({
+        title: r.title,
+        url: r.url,
+      }));
+    } catch (error) {
+      console.error('YouTube search failed:', error);
+      return []; // Return empty array on error to prevent flow failure
+    }
   },
 );
 
