@@ -8,6 +8,13 @@ import type { GeneratePersonalizedCareerReportOutput } from "@/ai/flows/generate
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const iconMap: { [key: string]: React.ElementType } = {
   "AI Engineer": BrainCircuit,
@@ -48,13 +55,18 @@ function ReportSkeleton() {
 
 export default function ReportDisplay() {
   const [report, setReport] = useState<GeneratePersonalizedCareerReportOutput | null>(null);
+  const [selectedSkill, setSelectedSkill] = useState<string | undefined>(undefined);
   const router = useRouter();
 
   useEffect(() => {
     const storedReport = sessionStorage.getItem("careerReport");
     if (storedReport) {
       try {
-        setReport(JSON.parse(storedReport));
+        const parsedReport = JSON.parse(storedReport);
+        setReport(parsedReport);
+        if (parsedReport.learningPlans && parsedReport.learningPlans.length > 0) {
+          setSelectedSkill(parsedReport.learningPlans[0].skill);
+        }
       } catch (error) {
         console.error("Failed to parse report from session storage", error);
         router.replace("/profile");
@@ -68,7 +80,9 @@ export default function ReportDisplay() {
     return <ReportSkeleton />;
   }
 
-  const { careerRecommendations, fitReasoning, learningPlan } = report;
+  const { careerRecommendations, fitReasoning, learningPlans } = report;
+
+  const selectedLearningPlan = learningPlans.find(p => p.skill === selectedSkill);
 
   return (
     <div className="container mx-auto max-w-5xl py-12 px-4 space-y-16">
@@ -123,22 +137,42 @@ export default function ReportDisplay() {
         <Card className="shadow-lg">
           <CardHeader>
             <CardTitle className="text-3xl font-bold flex items-center gap-3"><Target className="text-primary"/>Your 7-Day Learning Plan</CardTitle>
-            <CardDescription className="text-lg">A head start on your journey to becoming skilled in <span className="font-semibold text-primary">{learningPlan.skill}</span>.</CardDescription>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <CardDescription className="text-lg">Select a skill to see your personalized 7-day plan to get a head start on your journey.</CardDescription>
+              {learningPlans && learningPlans.length > 0 && (
+                <Select onValueChange={setSelectedSkill} value={selectedSkill}>
+                  <SelectTrigger className="w-full sm:w-[250px]">
+                    <SelectValue placeholder="Select a skill" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {learningPlans.map((plan) => (
+                      <SelectItem key={plan.skill} value={plan.skill}>
+                        {plan.skill}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="relative pl-6">
-              <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-border -translate-x-1/2"></div>
-              {learningPlan.plan.map((day, index) => (
-                 <div key={index} className="relative mb-8 pl-8">
-                    <div className="absolute left-0 top-1.5 w-6 h-6 bg-background border-2 border-primary rounded-full flex items-center justify-center -translate-x-1/2">
-                        <span className="text-primary font-bold text-xs">{day.day}</span>
-                    </div>
-                    <div className="p-4 rounded-lg bg-card border">
-                        <p className="font-semibold text-foreground">{day.task}</p>
-                    </div>
-                </div>
-              ))}
-            </div>
+            {selectedLearningPlan ? (
+              <div className="relative pl-6">
+                <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-border -translate-x-1/2"></div>
+                {selectedLearningPlan.plan.map((day, index) => (
+                   <div key={index} className="relative mb-8 pl-8">
+                      <div className="absolute left-0 top-1.5 w-6 h-6 bg-background border-2 border-primary rounded-full flex items-center justify-center -translate-x-1/2">
+                          <span className="text-primary font-bold text-xs">{day.day}</span>
+                      </div>
+                      <div className="p-4 rounded-lg bg-card border">
+                          <p className="font-semibold text-foreground">{day.task}</p>
+                      </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-muted-foreground">Select a skill to see your learning plan.</p>
+            )}
           </CardContent>
         </Card>
       </section>
