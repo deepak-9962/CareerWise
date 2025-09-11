@@ -6,7 +6,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, GraduationCap, Wrench, Lightbulb } from "lucide-react";
 
-import { generateReportAction, profileFormSchema, type ProfileFormValues } from "@/app/actions";
+import { generateReportAction } from "@/app/actions";
+import { profileFormSchema, type ProfileFormValues } from "@/lib/schemas";
 import { quizQuestions } from "@/lib/quiz";
 import { Button } from "@/components/ui/button";
 import {
