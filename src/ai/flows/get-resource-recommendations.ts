@@ -9,11 +9,10 @@
  */
 
 import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
-import {defineTool} from 'genkit/tool';
 import {search} from '@genkit-ai/google-cloud';
+import {z} from 'genkit';
 
-const youtubeSearch = defineTool(
+const youtubeSearch = ai.defineTool(
   {
     name: 'youtubeSearch',
     description: 'Search for YouTube videos.',
