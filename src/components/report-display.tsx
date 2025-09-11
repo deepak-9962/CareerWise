@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { AreaChart, BrainCircuit, Check, Cloud, GraduationCap, Sparkles, Target } from "lucide-react";
+import { AreaChart, BrainCircuit, Check, Cloud, GraduationCap, Smartphone, Sparkles, Target } from "lucide-react";
 
 import type { GeneratePersonalizedCareerReportOutput } from "@/ai/flows/generate-personalized-career-report";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -20,6 +20,7 @@ const iconMap: { [key: string]: React.ElementType } = {
   "AI Engineer": BrainCircuit,
   "Data Analyst": AreaChart,
   "Cloud Solutions Architect": Cloud,
+  "Mobile App Developer": Smartphone,
   "default": GraduationCap,
 };
 

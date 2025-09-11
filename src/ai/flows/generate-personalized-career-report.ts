@@ -50,6 +50,8 @@ const prompt = ai.definePrompt({
   output: {schema: GeneratePersonalizedCareerReportOutputSchema},
   prompt: `You are a personalized career advisor for university students in India. Based on their academic profile and psychometric quiz results, you will generate a personalized career report with the top 3 career recommendations, the reasoning behind why each career is a good fit, and a 7-day learning plan for a key skill for each recommendation.
 
+Ensure that at least one of the career recommendations is directly related to the student's existing technical skills.
+
 Academic Profile:
 Degree: {{{profile.degree}}}
 Year of Study: {{{profile.year}}}
