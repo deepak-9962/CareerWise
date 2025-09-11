@@ -12,3 +12,9 @@ export const profileFormSchema = z.object({
 });
 
 export type ProfileFormValues = z.infer<typeof profileFormSchema>;
+
+export const resourceFormSchema = z.object({
+  skill: z.string().min(2, { message: "Skill must be at least 2 characters." }),
+});
+
+export type ResourceFormValues = z.infer<typeof resourceFormSchema>;

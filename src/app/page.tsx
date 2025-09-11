@@ -54,7 +54,7 @@ export default function Home() {
             </CardHeader>
             <CardContent>
                 <Button asChild className="w-full" size="lg">
-                    <Link href="/profile">
+                    <Link href="/features">
                         <GoogleIcon className="mr-2"/>
                         Sign in with Google
                     </Link>
