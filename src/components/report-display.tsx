@@ -82,7 +82,7 @@ export default function ReportDisplay() {
 
   const { careerRecommendations, fitReasoning, learningPlans } = report;
 
-  const selectedLearningPlan = learningPlans.find(p => p.skill === selectedSkill);
+  const selectedLearningPlan = learningPlans?.find(p => p.skill === selectedSkill);
 
   return (
     <div className="container mx-auto max-w-5xl py-12 px-4 space-y-16">
