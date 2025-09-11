@@ -46,15 +46,15 @@ const GetResourceRecommendationsOutputSchema = z.object({
   youtube: z.array(z.object({
     title: z.string().describe('The title of the YouTube video.'),
     url: z.string().url().describe('The URL of the YouTube video.'),
-  })).describe('A list of recommended YouTube videos.'),
+  })).optional().describe('A list of recommended YouTube videos.'),
   courses: z.array(z.object({
     title: z.string().describe('The title of the course.'),
     url: z.string().url().describe('The URL of the course.'),
-  })).describe('A list of recommended online courses.'),
+  })).optional().describe('A list of recommended online courses.'),
   books: z.array(z.object({
     title: z.string().describe('The title of the book.'),
     author: z.string().describe('The author of the book.'),
-  })).describe('A list of recommended books.'),
+  })).optional().describe('A list of recommended books.'),
 });
 export type GetResourceRecommendationsOutput = z.infer<typeof GetResourceRecommendationsOutputSchema>;
 
