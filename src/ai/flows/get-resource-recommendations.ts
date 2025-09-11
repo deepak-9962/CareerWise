@@ -17,15 +17,23 @@ const youtubeSearch = ai.defineTool(
     name: 'youtubeSearch',
     description: 'Search for YouTube videos.',
     inputSchema: z.object({query: z.string()}),
-    outputSchema: z.any(),
+    outputSchema: z.array(z.object({
+      title: z.string(),
+      url: z.string(),
+    })),
   },
   async (input) => {
-    return await search({
+    const searchResult = await search({
       query: input.query,
       options: {
         site: 'youtube.com',
       },
     });
+
+    return searchResult.results.slice(0, 3).map(r => ({
+      title: r.title,
+      url: r.url,
+    }));
   },
 );
 
