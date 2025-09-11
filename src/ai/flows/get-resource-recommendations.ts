@@ -42,12 +42,14 @@ const prompt = ai.definePrompt({
   output: {schema: GetResourceRecommendationsOutputSchema},
   prompt: `You are an expert at finding the best learning resources. For the given skill, provide the top 3 recommendations for each of the following categories: YouTube videos, online courses, and books. Only recommend resources that are highly rated and from reputable sources.
 
+Ensure that the YouTube video URLs are valid and point to real, available videos. The format should be "https://www.youtube.com/watch?v=VIDEO_ID".
+
 Skill: {{{skill}}}
 
 Respond with a JSON object with the following structure:
 {
   "youtube": [
-    {"title": "Video Title", "url": "https://youtube.com/watch?v=..."},
+    {"title": "Video Title", "url": "https://www.youtube.com/watch?v=..."},
     ...
   ],
   "courses": [

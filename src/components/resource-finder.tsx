@@ -109,21 +109,21 @@ export default function ResourceFinder() {
             {resources && (
                 <div className="space-y-12">
                     <section>
-                        <h2 className="text-2xl font-bold mb-4 flex items-center gap-2"><Youtube className="text-red-600"/> YouTube Videos</h2>
+                        <h2 className="text-2xl font-bold mb-4 flex items-center gap-2"><Youtube className="text-primary"/> YouTube Videos</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {resources.youtube.map(video => <ResourceCard key={video.url} {...video} />)}
                         </div>
                     </section>
                     <Separator />
                     <section>
-                        <h2 className="text-2xl font-bold mb-4 flex items-center gap-2"><GraduationCap className="text-blue-600"/> Online Courses</h2>
+                        <h2 className="text-2xl font-bold mb-4 flex items-center gap-2"><GraduationCap className="text-primary"/> Online Courses</h2>
                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {resources.courses.map(course => <ResourceCard key={course.url} {...course} />)}
                         </div>
                     </section>
                     <Separator />
                     <section>
-                        <h2 className="text-2xl font-bold mb-4 flex items-center gap-2"><Book className="text-orange-600"/> Books</h2>
+                        <h2 className="text-2xl font-bold mb-4 flex items-center gap-2"><Book className="text-primary"/> Books</h2>
                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {resources.books.map(book => <ResourceCard key={book.title} {...book} />)}
                         </div>
