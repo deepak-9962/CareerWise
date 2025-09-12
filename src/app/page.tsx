@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Sparkles } from 'lucide-react';
 import Link from 'next/link';
+import { BackButton } from '@/components/back-button';
 
 const GoogleIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
@@ -33,8 +34,11 @@ const GoogleIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 export default function Home() {
   return (
-    <div className="flex h-full items-center justify-center bg-background p-4">
-      <div className="text-center">
+    <div className="flex h-full flex-col items-center bg-background p-4">
+      <div className="w-full max-w-screen-2xl">
+        <BackButton />
+      </div>
+      <div className="text-center flex-1 flex flex-col items-center justify-center">
         <div className="inline-block rounded-full bg-primary/10 p-4">
           <Sparkles className="h-12 w-12 text-primary" />
         </div>

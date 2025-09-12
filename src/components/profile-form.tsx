@@ -1,6 +1,6 @@
 "use client";
 
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -38,9 +38,11 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { Progress } from "@/components/ui/progress";
 
 export default function ProfileForm() {
   const [isPending, startTransition] = useTransition();
+  const [progress, setProgress] = useState(0);
   const router = useRouter();
   const { toast } = useToast();
 
@@ -53,7 +55,12 @@ export default function ProfileForm() {
   });
 
   const onSubmit = (values: ProfileFormValues) => {
+    setProgress(5);
     startTransition(async () => {
+      // advance progress periodically up to 90% while waiting
+      const timer = setInterval(() => {
+        setProgress((p: number) => (p < 90 ? Math.min(90, p + Math.random() * 10) : p));
+      }, 200);
       const result = await generateReportAction(values);
 
       if (result.success && result.data) {
@@ -61,6 +68,7 @@ export default function ProfileForm() {
           title: "Success!",
           description: "Your personalized report has been generated.",
         });
+        setProgress(100);
         sessionStorage.setItem("careerReport", JSON.stringify(result.data));
         router.push("/report");
       } else {
@@ -69,7 +77,10 @@ export default function ProfileForm() {
           title: "Uh oh! Something went wrong.",
           description: result.error || "There was a problem with your request.",
         });
+        setProgress(0);
       }
+      clearInterval(timer);
+      setTimeout(() => setProgress(0), 600);
     });
   };
 
@@ -84,6 +95,11 @@ export default function ProfileForm() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <CardContent className="space-y-8">
+            {progress > 0 && (
+              <div className="mb-2">
+                <Progress value={progress} />
+              </div>
+            )}
             <div className="space-y-6">
               <h3 className="text-lg font-semibold flex items-center gap-2"><GraduationCap/> Academic Profile</h3>
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">

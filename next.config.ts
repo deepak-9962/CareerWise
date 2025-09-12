@@ -1,35 +1,19 @@
-import type {NextConfig} from 'next';
+import type { NextConfig } from 'next';
+import path from 'path';
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+  // Keep builds/dev resilient
+  typescript: { ignoreBuildErrors: true },
+  eslint: { ignoreDuringBuilds: true },
   images: {
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'placehold.co',
-        port: '',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'images.unsplash.com',
-        port: '',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'picsum.photos',
-        port: '',
-        pathname: '/**',
-      },
+      { protocol: 'https', hostname: 'placehold.co', port: '', pathname: '/**' },
+      { protocol: 'https', hostname: 'images.unsplash.com', port: '', pathname: '/**' },
+      { protocol: 'https', hostname: 'picsum.photos', port: '', pathname: '/**' },
     ],
   },
+  // Ensure Next.js treats this folder as the workspace root even if a parent has a lockfile
+  outputFileTracingRoot: path.join(__dirname),
 };
 
 export default nextConfig;
