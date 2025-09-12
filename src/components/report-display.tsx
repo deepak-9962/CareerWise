@@ -7,6 +7,7 @@ import { AreaChart, BrainCircuit, Check, Cloud, GraduationCap, Smartphone, Spark
 import type { GeneratePersonalizedCareerReportOutput } from "@/ai/flows/generate-personalized-career-report";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import SkillTree from "@/components/skill-tree";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Select,
@@ -81,9 +82,9 @@ export default function ReportDisplay() {
     return <ReportSkeleton />;
   }
 
-  const { careerRecommendations, fitReasoning, learningPlans } = report;
+  const { careerRecommendations, fitReasoning, learningPlans, skillTree } = report as any;
 
-  const selectedLearningPlan = learningPlans?.find(p => p.skill === selectedSkill);
+  const selectedLearningPlan = learningPlans?.find((p: { skill: string; plan: Array<{ day: number; task: string }> }) => p.skill === selectedSkill);
 
   return (
     <div className="container mx-auto max-w-5xl py-12 px-4 space-y-16">
@@ -99,7 +100,7 @@ export default function ReportDisplay() {
       <section>
         <h2 className="text-3xl font-bold mb-6 flex items-center gap-3"><GraduationCap className="text-primary"/>Top Career Recommendations</h2>
         <div className="grid gap-8 md:grid-cols-3">
-          {careerRecommendations.map((rec, index) => {
+          {careerRecommendations.map((rec: { title: string; description: string }, index: number) => {
             const Icon = iconMap[rec.title] || iconMap.default;
             return (
               <Card key={index} className="shadow-md hover:shadow-xl transition-shadow duration-300">
@@ -123,7 +124,7 @@ export default function ReportDisplay() {
       <section>
         <h2 className="text-3xl font-bold mb-6 flex items-center gap-3"><Sparkles className="text-primary"/>Why It&apos;s a Fit for You</h2>
         <Accordion type="single" collapsible className="w-full" defaultValue={`item-${fitReasoning[0]?.title}`}>
-          {fitReasoning.map((fit, index) => (
+          {fitReasoning.map((fit: { title: string; reason: string }, index: number) => (
             <AccordionItem key={index} value={`item-${fit.title}`}>
               <AccordionTrigger className="text-lg font-semibold">{fit.title}</AccordionTrigger>
               <AccordionContent className="text-base text-muted-foreground">
@@ -146,7 +147,7 @@ export default function ReportDisplay() {
                     <SelectValue placeholder="Select a skill" />
                   </SelectTrigger>
                   <SelectContent>
-                    {learningPlans.map((plan) => (
+                    {learningPlans.map((plan: { skill: string }, index: number) => (
                       <SelectItem key={plan.skill} value={plan.skill}>
                         {plan.skill}
                       </SelectItem>
@@ -160,7 +161,7 @@ export default function ReportDisplay() {
             {selectedLearningPlan ? (
               <div className="relative pl-6">
                 <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-border -translate-x-1/2"></div>
-                {selectedLearningPlan.plan.map((day, index) => (
+                {selectedLearningPlan.plan.map((day: { day: number; task: string }, index: number) => (
                    <div key={index} className="relative mb-8 pl-8">
                       <div className="absolute left-0 top-1.5 w-6 h-6 bg-background border-2 border-primary rounded-full flex items-center justify-center -translate-x-1/2">
                           <span className="text-primary font-bold text-xs">{day.day}</span>
@@ -177,6 +178,12 @@ export default function ReportDisplay() {
           </CardContent>
         </Card>
       </section>
+
+      {skillTree && skillTree.root && (
+        <section>
+          <SkillTree tree={skillTree} />
+        </section>
+      )}
     </div>
   );
 }

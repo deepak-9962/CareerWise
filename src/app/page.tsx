@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, Route, BookOpen } from 'lucide-react';
 import Link from 'next/link';
 import { BackButton } from '@/components/back-button';
 
@@ -51,20 +51,30 @@ export default function Home() {
         <p className="text-lg text-muted-foreground">
           Let's unlock your potential and find the perfect career path for you.
         </p>
-        <Card className="mx-auto mt-10 max-w-md shadow-lg">
+        <div className="grid gap-6 grid-cols-1 md:grid-cols-2 mt-10 w-full max-w-3xl">
+          <Card className="shadow-lg">
             <CardHeader>
-                <CardTitle>Get Started</CardTitle>
-                <CardDescription>Sign in to begin your journey.</CardDescription>
+              <CardTitle className="flex items-center gap-2"><Route className="text-primary"/> Build Your Roadmap</CardTitle>
+              <CardDescription>Create a personalized skill roadmap and 7-day plan.</CardDescription>
             </CardHeader>
             <CardContent>
-                <Button asChild className="w-full" size="lg">
-                    <Link href="/features">
-                        <GoogleIcon className="mr-2"/>
-                        Sign in with Google
-                    </Link>
-                </Button>
+              <Button asChild className="w-full" size="lg">
+                <Link href="/profile">Create My Roadmap</Link>
+              </Button>
             </CardContent>
-        </Card>
+          </Card>
+          <Card className="shadow-lg">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2"><BookOpen className="text-primary"/> Find Resources</CardTitle>
+              <CardDescription>Top videos, courses, and books for any skill.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button asChild variant="secondary" className="w-full" size="lg">
+                <Link href="/features">Open Resource Finder</Link>
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );

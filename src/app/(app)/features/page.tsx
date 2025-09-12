@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, BookOpen, Compass } from "lucide-react";
+import { ArrowRight, BookOpen, Compass, Route } from "lucide-react";
 import Link from "next/link";
 
 const features = [
@@ -14,6 +14,12 @@ const features = [
         description: "Find the best YouTube videos, courses, and books to learn a new skill.",
         href: "/resources",
         icon: <BookOpen className="w-8 h-8 text-primary" />,
+    },
+    {
+        title: "Roadmap Provider",
+        description: "Get a step-by-step learning roadmap from your profile and interests.",
+        href: "/roadmap",
+        icon: <Route className="w-8 h-8 text-primary" />,
     }
 ]
 
